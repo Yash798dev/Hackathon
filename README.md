@@ -74,6 +74,20 @@ pip install -r requirements-train.txt
 python training/train_model.py
 ```
 
+## Train from your `spam.csv` with Naive Bayes
+
+If you have `C:\Users\yashw\Downloads\archive\spam.csv`:
+
+```bash
+python training/prepare_spam_dataset.py
+python training/train_naive_bayes.py
+```
+
+This prepares `training/data/sms_fraud_dataset_from_spam.csv` and updates:
+- `app/model/fraud_model.pkl`
+- `app/model/vectorizer.pkl`
+- `app/model/lite_model.json`
+
 This creates/updates:
 
 - `app/model/fraud_model.pkl`

@@ -1,2 +1,48 @@
+<<<<<<< Updated upstream
 venv
 mobile/node_modules
+=======
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Runtime / generated files
+app/scan_history.db
+*.db
+*.sqlite
+*.sqlite3
+
+# Trained model artifacts (large binaries — regenerate via train_model.py)
+# Comment these out if you want to commit the model files
+# app/model/fraud_model.pkl
+# app/model/vectorizer.pkl
+# app/model/lite_model.json
+
+# Buildozer / Android build outputs
+.buildozer/
+bin/
+*.apk
+
+# IDE / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Temporary / scratch files
+_tmp_*.py
+_tmp_*.txt
+>>>>>>> Stashed changes

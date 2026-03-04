@@ -86,6 +86,16 @@ class FraudDetector:
     OTP_RE = re.compile(r"\botp\b|\bpin\b|\bpassword\b", re.I)
     PAYMENT_RE = re.compile(r"\bpay\b|\bpayment\b|\bupi\b|\btransfer\b|\bcollect\b|\brs\.?\s?\d+", re.I)
     TOKEN_RE = re.compile(r"[a-z0-9]+")
+    BENIGN_PATTERNS = [
+        "credited",
+        "debited",
+        "transaction successful",
+        "balance",
+        "statement",
+        "emi due",
+        "do not share with anyone",
+        "official app",
+    ]
 
     def __init__(self, model_path=None):
         if model_path is None:
@@ -233,7 +243,15 @@ class FraudDetector:
         if len(keywords) >= 3:
             boost += 0.05
 
-        final_prob = min(max(prob + boost, 0.0), 1.0)
+        benign_hits = sum(1 for p in self.BENIGN_PATTERNS if p in cleaned)
+        reduction = 0.12 * benign_hits
+        strong_signals = any(
+            p in patterns for p in ["shortened_url", "url_present", "bank_verification_pressure"]
+        ) or len(keywords) > 0
+        if benign_hits > 0 and not strong_signals:
+            reduction += 0.55
+
+        final_prob = min(max(prob + boost - reduction, 0.0), 1.0)
         pct = int(round(final_prob * 100))
         risk = self._risk_level(pct)
         if risk == "SAFE":
